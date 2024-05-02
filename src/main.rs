@@ -21,7 +21,7 @@ fn main() {
     let cycle = PointerCycle::build(pointer_count);
     let start = Instant::now();
     let mut ref_time = start;
-    let mut iterations = 0;
+    let mut iterations: u64 = 0;
     let mut print_count = 0;
     cycle.walk_loop(
         #[inline(always)]
