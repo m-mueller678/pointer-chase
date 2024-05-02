@@ -49,6 +49,7 @@ fn main() {
     );
 }
 
+/// Generates a random cycle of pointers and walks it in a loop, recording the time per pointer access.
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Cli {
@@ -58,7 +59,7 @@ struct Cli {
     /// Duration in milliseconds
     #[arg(short, long, default_value = "1000")]
     time: u64,
-    /// Exit after printing N measurements
+    /// Exit after printing set number of measurements
     #[arg(short, long)]
     exit: Option<u64>,
     /// Print header
