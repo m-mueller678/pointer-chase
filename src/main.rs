@@ -1,12 +1,6 @@
 use crate::pointer_cycle::PointerCycle;
 use clap::Parser;
 use minstant::Instant;
-use rand::rngs::SmallRng;
-use rand::{Rng, SeedableRng};
-use std::pin::pin;
-use std::process::exit;
-use std::ptr;
-use std::time::Duration;
 
 mod pointer_cycle;
 
