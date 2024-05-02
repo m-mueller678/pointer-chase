@@ -34,7 +34,7 @@ fn main() {
                 let now = Instant::now();
                 let duration = now.duration_since(ref_time);
                 if now.duration_since(start).as_millis() >= (x.time * (print_count + 1)) as u128 {
-                    let time_per_pointer = duration.as_nanos() / iterations as u128;
+                    let time_per_pointer = duration.as_nanos() as f64 / iterations as f64;
                     print_count += 1;
                     if x.print_size {
                         print!("{rounded_size},");
