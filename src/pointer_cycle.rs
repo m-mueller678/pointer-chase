@@ -19,11 +19,19 @@ impl PointerCycle {
         PointerCycle(vec)
     }
 
-    pub fn walk(&self) {
-        let mut p = self.0[0];
-        for i in (0..self.0.len()).rev() {
+    pub fn walk_loop(&self, mut f: impl FnMut()) -> ! {
+        let start = self.0[0];
+        let len = self.0.len();
+        loop {
+            let mut p = start;
+            for _ in (0..len - 1).rev() {
+                p = unsafe { *(p as *const *const u8) };
+                debug_assert!(p != start);
+                f();
+            }
             p = unsafe { *(p as *const *const u8) };
-            assert_eq!((p == self.0[0]), i == 0);
+            assert_eq!(p, start);
+            f();
         }
     }
 }
