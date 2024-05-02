@@ -9,3 +9,4 @@ edition = "2021"
 clap = { version = "=4.4",features = ["derive"] }
 rand = {version =  "0.8.5" ,features = ["small_rng"]}
 minstant = "0.1.7"
+clap-markdown = "0.1.3"

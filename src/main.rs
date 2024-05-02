@@ -7,14 +7,18 @@ use std::process::exit;
 mod pointer_cycle;
 
 fn main() {
-    let x = Cli::parse();
-    let pointer_count = x.size / size_of::<*const u8>();
+    let cli = Cli::parse();
+    if cli.markdown_help {
+        clap_markdown::print_help_markdown::<Cli>();
+        return;
+    }
+    let pointer_count = cli.size / size_of::<*const u8>();
     let rounded_size = pointer_count * size_of::<*const u8>();
     assert!(pointer_count > 0);
-    if x.print_header {
+    if cli.print_header {
         println!("size,time,latency",);
     }
-    if x.exit == Some(0) {
+    if cli.exit == Some(0) {
         return;
     }
 
@@ -30,14 +34,14 @@ fn main() {
             if iterations % (1 << 14) == 0 {
                 let now = Instant::now();
                 let duration = now.duration_since(ref_time);
-                if now.duration_since(start).as_millis() >= (x.time * (print_count + 1)) as u128 {
+                if now.duration_since(start).as_millis() >= (cli.time * (print_count + 1)) as u128 {
                     let time_per_pointer = duration.as_nanos() as f64 / iterations as f64;
                     print_count += 1;
                     println!(
                         "{rounded_size},{},{time_per_pointer}",
                         now.duration_since(start).as_secs_f64()
                     );
-                    if Some(print_count) == x.exit {
+                    if Some(print_count) == cli.exit {
                         exit(0);
                     } else {
                         ref_time = now;
@@ -65,4 +69,6 @@ struct Cli {
     /// Print header
     #[arg(long)]
     print_header: bool,
+    #[arg(long, hide = true)]
+    markdown_help: bool,
 }
